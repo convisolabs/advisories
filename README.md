@@ -6,3 +6,7 @@
 ### 2014
 * [[CONVISO-14-001] - WildFly 8 (JBossAS) Application Directory Traversal Vulnerability](https://github.com/convisoappsec/advisories/blob/master/2014/CONVISO-14-001.txt)
 
+### 2019
+* [[CONVISO-13-001] - Spree Commerce Multiple Unsafe Reflection Vulnerabilities](https://github.com/convisoappsec/advisories/blob/master/2014/CONVISO-13001.txt)
+
+
