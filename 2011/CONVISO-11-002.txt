@@ -1,0 +1,92 @@
+[CONVISO-11-002] - Related Posts Word Press Plugin Cross Site Scripting Vulnerability
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-11-002
+    CVE ID: CVE-2011-0760
+    CVSS v2: 6.7, (AV:N/AC:L/Au:N/C:C/I:C/A:N)
+    Date: 2011-03-24
+
+2. Affected Components
+    WP Related Posts 1.0
+
+3. Description
+    The WordPress Related Posts Plugin, available at http://WordPress.org/extend/plugins/wp-related-
+    posts/ shows the posts related to others posts. This advisory describes multiple Stored Cross
+    Site Scripting (XSS) vulnerabilities and one Cross Site Request Forgery (CSRF) vulnerability on
+    the plugin.
+    As a result, an attacker can gain elevated access privileges to sensitive page content, session
+    cookies, and a variety of other information maintained by the web browser on behalf of the
+    WordPress administrator. Furthermore, the attacker can perform actions with administrative
+    privileges.
+
+4. Details
+    The plugin's configuration page is vulnerable to Stored Cross Site Scripting. The three fields
+    wp_relatedposts_ title, wp_relatedposts_num and wp_relatedposts_type are received through POST
+    or GET and included on the response page with inadequate sanitization. The vulnerable code is
+    shown bellow:
+
+    158: <tr valign="top">
+    159:        <th scope="row">Title:</th>
+    160:                        <td><input type="text" name="wp_relatedposts_title"
+    value="<?=$options['title']?>"></td>
+    161: </tr>
+    162: <tr valign="top">
+    163:        <th scope="row">Number posts:</th>
+    164:                        <td><input type="text" name="wp_relatedposts_num"
+    value="<?=$options['count']?>"></td>
+    165: </tr>
+    166: <tr valign="top">
+    167:        <th scope="row">Related on:</th>
+    168:                        <td>
+    169:                                        <select name="wp_relatedposts_type">
+    170:                                                        <option selected
+    value="<?=$options['type']?>"><?=$options['type']?></option>
+    171:                                                        <option value="Tags">Tags</option>
+    172:                                                        <option
+    value="Category">Category</option>
+    173:                                                        </select>
+    174:                        </td>
+
+    Another vulnerable piece of code is the one which prints the related posts list. The title,
+    eceived through the parameter wp_relatedposts_title, is included with little sanitization into
+    suchs lists. The vulnerable code is shown bellow:
+
+    79: $relatedpost.= '<br><br><br><h3>' . $options['title'] . '</h3><ul>';
+
+    (...)
+
+    120: $relatedpost.= '<br><br><br><h3>' . $options['title'] . '</h3><ul>';
+
+    These vulnerabilities allow an attacker to insert HTML/JavaScript commands to be interpreted in
+    the session of an authenticated administrator. Since the plugin's configuration page is not
+    protected against Cross Site Request Forgery, the exploitation permits the attacker to inject
+    configuration values. Proof of concept exploitation code is available to interested parties.
+
+5. Solution
+    The developers have not provided a patch or workaround. The solution should add code to sanitize
+    the values before including them using the htmlspecialchars() function or equivalent.
+    Furthermore, a mechanism to protect against the CSRF is needed to prevent an attacker from
+    changing the plugin’s configuration.
+
+6. Credits
+    Gabriel Quadros <gquadros@conviso.com.br>
+
+7. Report Timeline
+
+8. References
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2011 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+
