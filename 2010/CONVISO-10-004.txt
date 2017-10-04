@@ -1,4 +1,4 @@
-[CONVISO-10-004] - 
+[CONVISO-10-004] - LiveZilla Cross Site Scripting Vulnerability
 
 1. Advisory Information
     Conviso Advisory ID: CONVISO-10-004
