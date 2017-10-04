@@ -1,0 +1,70 @@
+[CONVISO-10-004] - 
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-10-004
+    CVE ID: CVE-2010-4276
+    CVSS v2: 6.7
+    Date: 2010-11-01
+
+2. Affected Components
+    The issue was confirmed on version 3.2.0.2 but other other versions maybe also affected.
+
+3. Description
+    LiveZilla is an application provided by LiveZilla GmbH to provide Live Chats, monitor website
+    visitors in real-time and convert them in to customers. LiveZilla is affected by Reflected Cross
+    Site Scripting on server.php in the "module" track which calls a vulnerable javascript function.
+
+4. Details
+    The request
+    http://<server>/livezilla/server.php?request=track&livezilla=<script>alert('xss')</script> pass
+    through the following files:
+
+    htdocs\livezilla\server.php
+    htdocs\livezilla\track.php
+    htdocs\livezilla\templates\jscript\jstrack.tpl
+    And land in this code exception:
+
+    -
+    207
+    208 function lz_tracking_set_sessid(_userId, _browId)
+    209 {
+    210 if(lz_session.UserId != _userId)
+    211 {
+    212 lz_session.UserId = _userId;
+    213 lz_session.BrowserId = _browId;
+    214 lz_session.Save();
+    215 }
+    216 }
+    217
+    -
+
+    The javascript file "jstrack.tpl" is called by track.php and contains a function named
+    "lz_tracking_set_sessid()" which does not sanitize data and may allow an attacker to inject a
+    malicious javascript code to support Reflected Cross Site Script attacks against users.
+
+5. Solution
+    LiveZilla released an update to fix the vulnerability, please check the availability at their
+    changelog page.
+
+6. Credits
+    Ulisses Castro <ucastro@conviso.com.br>
+
+7. Report Timeline
+
+8. References
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2010 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+

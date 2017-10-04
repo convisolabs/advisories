@@ -1,0 +1,59 @@
+[CONVISO-10-003] - Spree e-commerce JSON Hijacking Vulnerabilities
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-10-003
+    CVE ID: CVE-2010-3978
+    CVSS v2: 3.3, (AV:N/AC:L/Au:N/C:C/I:N/A:N)
+    Date: 2010-10-01
+
+2. Affected Components
+    All 0.11.x versions.
+
+3. Description
+    Spree e-commerce is an open source commerce platform written for the Ruby on Rails framework
+    supporting "Over 100 extensions created by our active and dedicated community". This problem was
+    confirmed in the following versions of the Spree e-commerce, other versions maybe also affected.
+    There are multiple JSON Hijacking vulnerabilities and as result, an attacker can steal
+    confidential information such as product costs, price and quantities and users email, encrypted
+    password, tokens, OpenID identifier, phone and address as well as orders count and values by
+    period.
+
+4. Details
+    There are some pages within the default Spree installation that use JavaScript Object Notation
+    (JSON) as a transport mechanism between the client and the server. As the application cannot
+    differentiate real requests from forged requests, and the JSON object returned can be accessed
+    by the attacker's malicious code via a script tag, those pages are vulnerable to an attack known
+    as JSON Hijacking.
+
+    The affected pages are:
+
+    - /admin/products.json
+    - /admin/users.json
+    - /admin/overview/get_report_data
+
+    Proof of concept exploitation code is available to interested parties.
+
+5. Solution
+
+6. Credits
+    Gabriel Quadros <gquadros@conviso.com.br>
+
+7. Report Timeline
+
+8. References
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2010 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+

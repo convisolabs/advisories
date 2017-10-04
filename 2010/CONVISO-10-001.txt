@@ -1,0 +1,87 @@
+[CONVISO-10-001] - 24/7 Real Media's Open AdStream v.5.7 Incorrect Default Permission
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-10-001
+    CVE ID: CVE-2010-1582
+    CVSS v2: 9
+    Date: 2010-01-14
+
+2. Affected Components
+    The vulnerability was identified on the deployment of Open AdStream Version 5.7. This version of
+    the product can be used only with MySQL 3.23 and Apache 1.36.x.
+
+3. Description
+    This advisory describes a vulnerability in the permission of the directory RealMedia created as
+    default during the installation of Open AdStream, an ad campaign management platform provided by
+    24/7 Real Media, which exposes directly to the Internet the configuration files, including .sql
+    which contains access credentials. As a result, a cracker can use this flaw to install a
+    backdoor or take the ownership of the affected component as he/she had access to all
+    configuration files and access credentials.
+
+4. Details
+    The deployment process performed by 24/7 Real Media keeps the default configuration on Open
+    AdStream which publishes the configuration files of the host exposed to the Internet on a format
+    such as http://admXX.customername.com.br/RealMedia. As a result the following example files can
+    be fully accessed:
+
+    ads
+    oasis_mysql_insertdb.sqlbcrypt
+    oasis_mysql_insertdb.sql.templateClasses
+    oasis_mysql_insertuser.sqlConvertNotification.ini
+    oasis_mysql_insertuser.sql.templatehash.txt
+    oasis_mysql_testdb.sqlindex.html        oasis_mysql_testdb.sql.templateini
+    oasis_mysql_uninstalldb.sqlinstall.sh
+    oasis_mysql_uninstalldb.sql.templatelibstdc++.so.2.10
+    oasis_mysql_uninstallOAS.sqllicense.txt
+    oasis_mysql_uninstallOAS.sql.templatelicense.txt.bfe
+    oasis_params.cfgoasis_apache.layout     oasis_path_substitution.shoasis.cfg
+    oasis_ReportFormat.awkoasis_cfg_apache.sh
+    oasis_ReportFormat_mapping.5.1.1oasis_cfg_cron.sh
+    oasis_ReportFormat_mapping.5.1.2oasis_cfg_distrib.sh
+    oasis.shoasis_cfg_mysql.sh      oasis_upgrade_apache.cfgoasis_cfg_ns.sh
+    oasis_upgrade_de.shoasis_copysofiles.sh
+    oasis_upgrade_ns.cfgoasis_errorlog.sh
+    oasis_upgrade_ns.shoasis_example.cfg    oasis_util.shoasis_find_apache.sh
+    oasis_validate_config.shoasis_finish_upgrade.sh
+    oasis_wsusr_apache.cronoasis_install.ini
+    oasis_wsusr_bean.cronoasis_install_oas.sh
+    oasis_wsusr_bean.cron.templateoasis.log
+    oasis_wsusr_nightly.cronoasis_mysql_createdb.sql
+    oasis_wsusr_nightly.cron.templateoasis_mysql_createdb.sql.template
+
+    The database server location as well as access credentials of administrative accounts can be
+    found within the files oasis_mysql_insertuser.sql and oasis_params.cfg. With this information,
+    an attacker could gain access to the database and perform any malicious activity. Other files
+    such as oasis_install.ini and install.sh discloses the directory organization of Open AdStream
+    server, which could be useful in combination with another attack.
+
+    Other problem we found is related to the old versions of Apache HTTP server and MySQL that must
+    be installed to use the affected software.
+
+5. Solution
+    The permission of the directory RealMedia should be changed in order to deny access to the
+    configuration files.
+
+6. Credits
+    Wagner Elias <welias@conviso.com.br>
+
+7. Report Timeline
+
+8. References
+    http://www.247realmedia.com/EN-US/us/open-ad-stream.html
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2010 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+

