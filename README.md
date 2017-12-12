@@ -2,6 +2,8 @@
 
 | Advisory ID | Title |
 |-------------|-------|
+| [CONVISO-17-003](https://github.com/convisoappsec/advisories/blob/master/2017/CONVISO-17-003.txt) | Zoom Linux Client Command Injection Vulnerability (RCE) |
+| [CONVISO-17-002](https://github.com/convisoappsec/advisories/blob/master/2017/CONVISO-17-002.txt) | Zoom Linux Client Stack-based Buffer Overflow Vulnerability |
 | [CONVISO-17-001](https://github.com/convisoappsec/advisories/blob/master/2017/CONVISO-17-001.txt) | Multiple vulnerabilities in Cisco DDR2200 Series |
 | [CONVISO-14-001](https://github.com/convisoappsec/advisories/blob/master/2014/CONVISO-14-001.txt) | WildFly 8 (JBossAS) Application Directory Traversal Vulnerability |
 | [CONVISO-13-001](https://github.com/convisoappsec/advisories/blob/master/2013/CONVISO-13-001.txt) | Spree Commerce Multiple Unsafe Reflection Vulnerabilities |
