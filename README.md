@@ -2,6 +2,7 @@
 
 | Advisory ID | Title |
 |-------------|-------|
+| [CONVISO-18-001](https://github.com/convisoappsec/advisories/blob/master/2018/CONVISO-18-001.txt) | Nasdaq BWise JMX/RMI RCE |
 | [CONVISO-17-003](https://github.com/convisoappsec/advisories/blob/master/2017/CONVISO-17-003.txt) | Zoom Linux Client Command Injection Vulnerability (RCE) |
 | [CONVISO-17-002](https://github.com/convisoappsec/advisories/blob/master/2017/CONVISO-17-002.txt) | Zoom Linux Client Stack-based Buffer Overflow Vulnerability |
 | [CONVISO-17-001](https://github.com/convisoappsec/advisories/blob/master/2017/CONVISO-17-001.txt) | Multiple vulnerabilities in Cisco DDR2200 Series |
