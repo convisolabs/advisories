@@ -50,7 +50,7 @@
     provided, please check our website at www.conviso.com.br.
 
 10. Copyright and Disclaimer
-    The information in this advisory is Copyright 16/05/2018 Conviso Application Security S/A and
+    The information in this advisory is Copyright 2018 Conviso Application Security S/A and
     provided so that the society can understand the risk they may be facing by running affected
     software, hardware or other components used on their systems. In case you wish to copy
     information from this advisory, you must either copy all of it or refer to this document
