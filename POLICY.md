@@ -26,7 +26,22 @@ Conviso Application Security S/A may communicate their customers immediately abo
 
 Conviso Application Security S/A will prepare the ﬁnal version of the Security Advisory that discloses the same information provided originally to the vendor (unless facts have changed) as well as the available work-arounds or patches that have been made available by the vendor or Conviso Code Fighters. The advisory release will be written by Conviso Code Fighters and will be approved by the Research & Development Manager and the Operations Manager.
 
-TABLE HERE
+**Contact**
+
+| Task                                | Timeline | Comments                                                                                                        |
+|-------------------------------------|----------|-----------------------------------------------------------------------------------------------------------------|
+| Security Advisory Draft development | N/A      | N/A                                                                                                             |
+| Vendor notiﬁed (ﬁrst attempt)       | Day 0    | Vendor will be notiﬁed immediately the conclusion of Security Advisory draft version.                           |
+| Vendor notiﬁed (second attempt)     | Day 10   | A second contact attempt will be made 10 days after the initial one if no response is received from the vendor. |
+| Vendor notiﬁed (third attempt)      | Day 20   | A third contact attempt will be made 20 days after the initial one if no response is received from the vendor.  |
+| Vendor notiﬁed (ﬁnal attempt)       | Day 30   | A final contact attempt will be made 30 days after the initial one if no response is received from the vendor.  |
+
+**Coordinating**
+
+| Task                          | Timeline                                | Comments                                                                                                                             |
+|-------------------------------|-----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| Vendor patch development      | After first effective contact or Day 30 | A timeline of 60 days will be provided to vendor’s effort to provide a patch and/or workaround to address the related vulnerability. |
+| Publish the Security Advisory | After a patch is released or Day 90     |
 
 ## 6. Timeline
 
