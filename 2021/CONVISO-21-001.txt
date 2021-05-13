@@ -1,0 +1,63 @@
+[CONVISO-21-001] - [CONVISO-21-001] - October CMS Token Reactivation
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-21-001
+    CVE ID: CVE-2021-3311 
+    CVSS v3: 8.1,  (AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H)
+    Date: 2021-01-26
+
+2. Affected Components
+    October CMS >= v1.0.471
+
+3. Description
+    After logout on the application, the user token was invalidated, but with a new login, the old
+    token is validated again. So the flux is basically:
+
+        1. Victim logs in
+        2. Attacker captures victim’s session cookie
+        3. Victim logs out
+        4. Session cookie no longer works
+        5. Victim logs in a second time
+        6. ORIGINAL session cookie works (Attacker is also signed in)
+
+4. Details
+    October CMS is based on Laravel architecture, looking at the logout application, it was noticed
+    that the Session::flush() method was been used. That method doesn't invalidate the old token
+    properly, it only erases it without destroying it.
+
+5. Solution
+    Instead of using the flush method, use the migrate method. Those two methods serve the same
+    purpose but invalidate method calls migrate that is responsible to invalidate the token.
+
+6. Credits
+    Anísio Santos <absantos@conviso.com.br>
+
+7. Report Timeline
+    January, 26 - Conviso contacted Mitre for the CVE number registration.
+    January, 27 - Conviso sent the first email to the Vendor about the vulnerability
+    January, 28 - Vendor asked for more pieces of information to replicate the bug.
+    January, 28 - Conviso sent information for replication and a possible solution.
+    January, 30 - Vendor patched the application with Conviso's solution.
+    February, 4 - Conviso asked Mitre to disclose the CVE.
+    February, 5 - Mitre disclosed the CVE.
+
+8. References
+    https://medium.com/code-fighters/cve-2021-3311-october-cms-token-reactivation-c81d57d64f7d
+
+    https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3311
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2021 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
+
