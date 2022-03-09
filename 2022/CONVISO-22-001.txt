@@ -1,0 +1,127 @@
+[CONVISO-22-001] - Argument/Code Injection via ActiveStorage's image transformation functionality
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-22-001
+    CVE ID: CVE-2022-21831
+    CVSS v2: 
+    Date: 2022-03-09
+
+2. Affected Components
+    activestorage >= 5.2.0
+    image_processing 1.12.1
+    mini_magick 4.11.0
+
+3. Description
+    If user-supplied values are passed as argument to variant()/preview() methods for ActiveStorage
+    transformation using image_processing, it may cause arbitrary code injection or arbitrary
+    argument injection to be used by imagemagick convert tool. In both cases remote code execution
+    is possible.
+
+4. Details
+    ActiveStorage has an image transformation functionality which uses the
+    concept of variants. One example of direct usage can be seen in the
+    docs as:
+
+    -----
+    <%= image_tag user.avatar.variant(resize_to_limit: [100, 100]) %>
+    -----
+
+    This will create an image tag with a variant URL, which when visited
+    will return the avatar image transformed to the new size. For this, it uses the gem
+    ImageProcessing [3] with MiniMagick by default.
+
+    1) The first problem arises when a user-supplied value is passed as
+    input to a hard-coded transformation, such as:
+
+    -----
+    <%= image_tag user.avatar.variant(resize: params[:new_size]) %>
+    -----
+
+
+    Since Rails params[] can be an array, one thing the attacker could do
+    here is to pass an array and inject arbitrary arguments into the command
+    to be executed (ImageMagick's convert by default).
+
+    https://example.com/controller?new_size[]=123&new_size[]=-set&new_size[]=comment&new_size[]=MYCO
+    MMENT&new_size[]=-write&new_size[]=/tmp/file.erb
+
+    This is going to generate the following command:
+
+    -----
+    convert ORIGINAL_IMAGE -auto-orient -resize 123 -set comment MYCOMMENT -write /tmp/file.erb
+    /tmp/image_processing20210328-23426-63rmm2.png
+    -----
+
+    It has the effect of writing a file containing user-controlled data
+    anywhere in the system. This could be used easily to achieve RCE against
+    Rails applications by overwriting ERB files, for example.
+
+    2) A second problem arises when the user is also allowed to choose
+    the kind of transformation to be applied, such as: <%= image_tag
+    user.avatar.variant(params[:t] => params[:v]) %>
+
+    This is still dangerous since ImageMagick's convert program has a lot
+    of powerful command-line options and they can be used to compromise the
+    application. For example, the user could pass:
+
+    https://example.com/controller?t=write&v=/tmp/file2.erb
+
+    This is going to generate the following command:
+
+    -----
+    convert ORIGINAL_IMAGE -auto-orient -write /tmp/file2.erb
+    /tmp/image_processing20210328-23426-63rmm2.png
+    -----
+
+    It has a similar effect as the previous attack, if we consider the original image is usually
+    user-controlled.
+
+    3) The third problem occurs due the way ImageProcessing passes the
+    operations to the builder object (via send()). There is no filtering to
+    check if the called method is a valid operation and this can be explored
+    by an attacker to execute code.  Consider the same pattern as before:
+
+    -----
+    <%= image_tag user.avatar.variant(params[:t] => params[:v]) %>
+    -----
+
+    The attacker could pass:
+
+    https://example.com/controller?t=eval&v=system("touch /tmp/hacked")
+
+    And the Ruby code system("touch /tmp/hacked") would be executed.
+
+5. Solution
+    Upgrade to versions 7.0.2.3, 6.1.4.7, 6.0.4.7, 5.2.6.3 or apply patches [2].
+
+6. Credits
+    Ricardo Silva <rsilva@convisoappsec.com>
+    Gabriel Quadros <gquadros@convisoappsec.com>
+
+7. Report Timeline
+    Apr 07, 2021 - Vulnerability reported to Rails Team via HackerOne
+    Apr 13, 2021 - Rails Team first reply
+    Set 08, 2021 - First patch sent for validation
+    Oct 05, 2021 - Second patch sent for validation
+    Mar 08, 2022 - Rails Team released advisory
+
+
+8. References
+    [1] https://hackerone.com/reports/1154034
+    [2] https://discuss.rubyonrails.org/t/cve-2022-21831-possible-code-injection-vulnerability-in-rails-active-storage/80199
+    [3] https://github.com/janko/image_processing
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2022 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
