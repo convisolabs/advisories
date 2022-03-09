@@ -2,6 +2,7 @@
 
 | Advisory ID | Title |
 |-------------|-------|
+| [CONVISO-22-001](https://github.com/convisoappsec/advisories/blob/master/2022/CONVISO-22-001.txt) | Argument/Code Injection via ActiveStorage's image transformation functionality |
 | [CONVISO-21-001](https://github.com/convisoappsec/advisories/blob/master/2021/CONVISO-21-001.txt) | October CMS Token Reactivation |
 | [CONVISO-18-001](https://github.com/convisoappsec/advisories/blob/master/2018/CONVISO-18-001.txt) | Nasdaq BWise JMX/RMI RCE |
 | [CONVISO-17-003](https://github.com/convisoappsec/advisories/blob/master/2017/CONVISO-17-003.txt) | Zoom Linux Client Command Injection Vulnerability (RCE) |
