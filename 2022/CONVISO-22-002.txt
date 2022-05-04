@@ -1,0 +1,51 @@
+[CONVISO-22-002] - FortiIsolator - Unauthorized user able to regenerate CA certificate
+
+1. Advisory Information
+    Conviso Advisory ID: CONVISO-22-002
+    CVE ID: CVE-2021-41020
+    CVSSv3 Score : 8.6
+    Date: 2022-05-03
+
+2. Affected Components
+    FortiIsolator versions 2.3.2 and below
+
+3. Description
+    An improper access control vulnerability [CWE-284] in FortiIsolator may allow an authenticated,
+    non privileged attacker to regenerate the CA certificate via the regeneration URL.
+
+4. Details
+    - It was listed the critical endpoints in FortiIsolator
+    - It was identified that the feature "CA Generate" is an important component to software purpose
+    - It was validated the authorization mechanism to access this component and during this process 
+      was identified that there was not a correct authorization validation
+    - It was created an user with read-only permission that should not be able to access the component
+    - This user was able to renegerate the CA certificate in the software
+
+5. Solution
+    Upgrade to FortiIsolator version 2.3.3 or above.
+    Upgrade to FortiIsolator version 2.4.0 or above.
+
+6. Credits
+    Danilo Costa <dcosta@convisoappsec.com>
+
+7. Report Timeline
+    Apr 24, 2021 - The Vulnerability was reported do Fortiguard PSIRT Team
+    May 03, 2022 - The vulnerability has been fixed and published
+
+8. References
+    https://www.fortiguard.com/psirt/FG-IR-21-040
+
+9. About Conviso
+    Conviso is a consulting company specialized on application security. Our values are based on the
+    allocation of the adequate competencies on the field, a clear and direct speech with the market,
+    collaboration and partnership with our customers and business partners and constant investments
+    on methodology and research improvement. For more information about our company and services
+    provided, please check our website at www.conviso.com.br.
+
+10. Copyright and Disclaimer
+    The information in this advisory is Copyright 2022 Conviso Application Security S/A and provided
+    so that the society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
