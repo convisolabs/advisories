@@ -2,6 +2,7 @@
 
 | Advisory ID | Title |
 |-------------|-------|
+| [CONVISO-22-002](https://github.com/convisoappsec/advisories/blob/master/2022/CONVISO-22-002.txt) | FortiIsolator - Unauthorized user able to regenerate CA certificate |
 | [CONVISO-22-001](https://github.com/convisoappsec/advisories/blob/master/2022/CONVISO-22-001.txt) | Argument/Code Injection via ActiveStorage's image transformation functionality |
 | [CONVISO-21-001](https://github.com/convisoappsec/advisories/blob/master/2021/CONVISO-21-001.txt) | October CMS Token Reactivation |
 | [CONVISO-18-001](https://github.com/convisoappsec/advisories/blob/master/2018/CONVISO-18-001.txt) | Nasdaq BWise JMX/RMI RCE |
@@ -18,3 +19,5 @@
 | [CONVISO-10-003](https://github.com/convisoappsec/advisories/blob/master/2010/CONVISO-10-003.txt) | Spree e-commerce JSON Hijacking Vulnerabilities |
 | [CONVISO-10-002](https://github.com/convisoappsec/advisories/blob/master/2010/CONVISO-10-002.txt) | cform WordPress Plugin V 11.5 Cross Site Scripting Vulnerability |
 | [CONVISO-10-001](https://github.com/convisoappsec/advisories/blob/master/2010/CONVISO-10-001.txt) | 24/7 Real Media's Open AdStream v.5.7 Incorrect Default Permission |
+
+
