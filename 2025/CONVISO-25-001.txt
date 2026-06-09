@@ -1,0 +1,111 @@
+[CONVISO-25-001] - TastyIgniter - Unauthorized Invoice Generation Due to Missing Permission Checks
+
+1. Advisory Information
+
+   Conviso Advisory ID: CONVISO-25-001
+   CVE ID: CVE-2024-44313
+   CVSSv3 Score: 8.1
+   Severity: High
+   Date: 2025-03-18
+
+2. Affected Components
+
+   TastyIgniter
+
+   Affected Version:
+
+   * 3.7.6 and prior versions
+
+   Affected Component:
+
+   * app/admin/controllers/Orders.php
+   * invoice() function
+
+3. Description
+
+   An Incorrect Access Control vulnerability [CWE-284] in TastyIgniter 3.7.6
+   allows unauthorized users to access and generate invoices due to missing
+   permission checks within the invoice() function of the Orders controller.
+
+4. Details
+
+   * The vulnerability resides in the invoice() function located in:
+     app/admin/controllers/Orders.php
+
+   * The affected functionality is responsible for invoice generation and access.
+
+   * Authorization checks are not properly enforced before processing requests.
+
+   * An attacker may invoke the vulnerable functionality without possessing the
+     required privileges.
+
+   * Due to missing permission validation, unauthorized users can access invoice
+     information and generate invoices.
+
+   * Successful exploitation may result in unauthorized access to business
+     information and disclosure of invoice-related data.
+
+   Vulnerability Type:
+
+   * CWE-284: Improper Access Control
+
+   Attack Vector:
+
+   * Network
+
+   Privileges Required:
+
+   * Low
+
+   User Interaction:
+
+   * None
+
+5. Solution
+
+   Upgrade TastyIgniter to a version newer than 3.7.6 once an official fix
+   becomes available.
+
+   Additionally:
+
+   * Implement server-side authorization validation before invoice generation.
+   * Enforce role-based access control (RBAC) on invoice-related endpoints.
+   * Verify permissions before returning invoice data.
+   * Review administrative controllers for similar missing authorization checks.
+
+6. Credits
+
+   cnetsec
+
+7. Report Timeline
+
+   2024-XX-XX - Vulnerability discovered and reported.
+   2025-03-18 - CVE-2024-44313 published.
+
+8. References
+
+   CVE-2024-44313
+
+   Vulnerable Source Code:
+   https://github.com/tastyigniter/TastyIgniter/blob/3.x/app/admin/controllers/Orders.php
+
+   Research Article:
+   https://medium.com/@cnetsec/cve-2024-44313-incorrect-access-control-in-tastyigniter-3-7-6-01a73c548b74
+
+   Project Repository:
+   https://github.com/tastyigniter/TastyIgniter
+
+9. About Conviso
+
+   Conviso is a consulting company specialized in application security. Our values are based on the
+   allocation of the adequate competencies on the field, a clear and direct speech with the market,
+   collaboration and partnership with our customers and business partners and constant investments
+   on methodology and research improvement. For more information about our company and services
+   provided, please check our website at [www.conviso.com.br](http://www.conviso.com.br).
+
+10. Copyright and Disclaimer
+
+    The information in this advisory is provided so that the security community can understand
+    the risks associated with affected software and take appropriate mitigation actions.
+    No guarantee is provided for the accuracy of this information, or damage caused by
+    testing activities performed based on this document.
