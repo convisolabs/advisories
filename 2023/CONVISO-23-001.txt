@@ -1,0 +1,111 @@
+[CONVISO-23-001] - FortiAuthenticator / FortiDeceptor / FortiMail - Denial of Service via Excessive Authentication Attempts
+
+1. Advisory Information
+
+   Conviso Advisory ID: CONVISO-23-001
+   CVE IDs:
+
+   * CVE-2022-29056
+   * CVE-2023-26208
+   * CVE-2023-26209
+
+   CVSSv3 Score: 3.5
+   Severity: Low
+   Date: 2023-03-07
+
+2. Affected Components
+
+   FortiAuthenticator:
+
+   * Version 6.4 all versions
+   * Version 6.3 all versions
+   * Version 6.2 all versions
+   * Version 6.1 all versions
+   * Version 6.0 all versions
+   * Version 5.5 all versions
+   * Version 5.4 all versions
+
+   FortiDeceptor:
+
+   * Version 3.1 all versions
+   * Version 3.0 all versions
+   * Version 2.1 all versions
+   * Version 2.0 all versions
+   * Version 1.1 all versions
+   * Version 1.0 all versions
+
+   FortiMail:
+
+   * Version 6.4.0
+   * Version 6.2.1 through 6.2.4
+   * Version 6.0.0 through 6.0.9
+
+3. Description
+
+   An improper restriction of excessive authentication attempts vulnerability [CWE-307]
+   in FortiAuthenticator, FortiDeceptor and FortiMail may allow a remote unauthenticated
+   attacker to partially exhaust CPU and memory resources by sending numerous HTTP
+   requests to the login form.
+
+4. Details
+
+   * The affected products do not sufficiently restrict excessive authentication attempts.
+   * An unauthenticated attacker can repeatedly send requests to the login interface.
+   * A large volume of authentication requests may consume CPU and memory resources.
+   * Resource exhaustion may degrade system performance and affect the availability of
+     authentication-related services.
+   * Successful exploitation may lead to a partial Denial of Service (DoS) condition
+     without requiring valid credentials.
+
+5. Solution
+
+   Upgrade to one of the following fixed versions:
+
+   FortiAuthenticator:
+
+   * Version 6.5.0 or above
+
+   FortiDeceptor:
+
+   * Version 3.2.0 or above
+
+   FortiMail:
+
+   * Version 6.4.1 or above
+   * Version 6.2.5 or above
+   * Version 6.0.10 or above
+
+6. Credits
+
+   Danilo Costa [dcosta@convisoappsec.com](mailto:dcosta@convisoappsec.com)
+
+7. Report Timeline
+
+   Mar 07, 2023 - Vulnerability fixed and publicly disclosed by Fortinet.
+
+8. References
+
+   Fortinet PSIRT Advisory: FG-IR-20-078
+
+   CVEs:
+
+   * CVE-2022-29056
+   * CVE-2023-26208
+   * CVE-2023-26209
+
+9. About Conviso
+
+   Conviso is a consulting company specialized in application security. Our values are based on the
+   allocation of the adequate competencies on the field, a clear and direct speech with the market,
+   collaboration and partnership with our customers and business partners and constant investments
+   on methodology and research improvement. For more information about our company and services
+   provided, please check our website at [www.conviso.com.br](http://www.conviso.com.br).
+
+10. Copyright and Disclaimer
+
+    The information in this advisory is Copyright 2023 Conviso Application Security S/A and provided
+    so that society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
