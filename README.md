@@ -8,7 +8,6 @@
 | [CONVISO-23-001](https://github.com/convisoappsec/advisories/blob/master/2023/CONVISO-23-001.txt) | FortiAuthenticator / FortiDeceptor / FortiMail - Denial of Service Through Excessive Authentication Attempts |
 | [CONVISO-22-003](https://github.com/convisoappsec/advisories/blob/master/2022/CONVISO-22-003.txt) | FortiADC / FortiDDoS-F - Restricted User Able to Modify System Files via Shell Access |
 | [CONVISO-22-002](https://github.com/convisoappsec/advisories/blob/master/2022/CONVISO-22-002.txt) | FortiIsolator - Unauthorized user able to regenerate CA certificate |
-| [CONVISO-22-002](https://github.com/convisoappsec/advisories/blob/master/2022/CONVISO-22-002.txt) | FortiIsolator - Unauthorized user able to regenerate CA certificate |
 | [CONVISO-22-001](https://github.com/convisoappsec/advisories/blob/master/2022/CONVISO-22-001.txt) | Argument/Code Injection via ActiveStorage's image transformation functionality |
 | [CONVISO-21-001](https://github.com/convisoappsec/advisories/blob/master/2021/CONVISO-21-001.txt) | October CMS Token Reactivation |
 | [CONVISO-18-001](https://github.com/convisoappsec/advisories/blob/master/2018/CONVISO-18-001.txt) | Nasdaq BWise JMX/RMI RCE |
