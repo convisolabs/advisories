@@ -1,0 +1,89 @@
+[CONVISO-24-001] - LettaAI (MemGPT) - Unauthorized Access to User Data via Admin API Endpoint
+
+1. Advisory Information
+
+   Conviso Advisory ID: CONVISO-24-001
+   CVE ID: CVE-2024-39025
+   CVSSv3 Score: N/A
+   Date: 2024-07-XX
+
+2. Affected Components
+
+   LettaAI (MemGPT)
+
+   * Version 0.3.17
+
+3. Description
+
+   An improper authorization vulnerability [CWE-285] in LettaAI (MemGPT) may allow
+   unauthorized users to access sensitive user information through the administrative
+   API endpoint "/users".
+
+   The vulnerability exists because the endpoint does not properly enforce access
+   control restrictions before returning user information stored in the database.
+
+4. Details
+
+   * The vulnerability affects the administrative API endpoint "/users".
+   * The endpoint is responsible for retrieving user records from the application database.
+   * Authorization checks are not properly enforced before processing requests.
+   * An attacker may remotely invoke the endpoint and obtain information belonging to
+     other users.
+   * The issue results in unauthorized disclosure of sensitive user information.
+   * The vulnerability violates the principle of least privilege by exposing
+     administrative functionality to unauthorized actors.
+
+   Vulnerability Type:
+
+   * CWE-285: Improper Authorization
+
+   Affected Endpoint:
+
+   * GET /users
+
+5. Solution
+
+   Upgrade to the latest available version of LettaAI (MemGPT).
+
+   Additionally:
+
+   * Restrict access to administrative endpoints.
+   * Implement server-side authorization checks for privileged functions.
+   * Enforce role-based access control (RBAC) validation before returning user data.
+   * Review all administrative API endpoints for similar authorization flaws.
+
+6. Credits
+
+   cnetsec
+
+7. Report Timeline
+
+   2024-07-XX - Vulnerability publicly disclosed.
+   2024-07-XX - CVE-2024-39025 assigned.
+
+8. References
+
+   CVE-2024-39025
+
+   LettaAI GitHub Repository
+
+   Release:
+   https://github.com/letta-ai/letta/releases/tag/0.3.17
+
+   Original Research:
+   https://medium.com/@cnetsec/a-vulnerability-cve-2024-39025-has-been-identified-in-lettaai-memgpt-v0-3-17-146cb38bb6db
+
+9. About Conviso
+
+   Conviso is a consulting company specialized in application security. Our values are based on the
+   allocation of the adequate competencies on the field, a clear and direct speech with the market,
+   collaboration and partnership with our customers and business partners and constant investments
+   on methodology and research improvement. For more information about our company and services
+   provided, please check our website at [www.conviso.com.br](http://www.conviso.com.br).
+
+10. Copyright and Disclaimer
+
+    The information in this advisory is provided so that the security community can understand
+    the risks associated with affected software and take appropriate mitigation actions.
+    No guarantee is provided for the accuracy of this information, or damage caused by
+    testing activities performed based on this document.
