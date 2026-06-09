@@ -1,0 +1,93 @@
+[CONVISO-22-003] - FortiADC / FortiDDoS-F - Restricted user able to modify system files via shell access
+
+1. Advisory Information
+
+   Conviso Advisory ID: CONVISO-22-003
+   CVE ID: CVE-2021-43076
+   CVSSv3 Score: 6.2
+   Severity: Medium
+   Date: 2022-09-06
+
+2. Affected Components
+
+   FortiDDoS-F:
+
+   * Version 6.3.0
+
+   FortiADC:
+
+   * Version 6.2.0 through 6.2.1
+   * Version 6.1.0 through 6.1.5
+   * All versions of 6.0
+   * All versions of 5.4
+   * All versions of 5.3
+
+   Not affected:
+
+   * FortiDDoS-F 6.2.x
+   * FortiDDoS-F 6.1.x
+   * FortiADC 7.1.x
+   * FortiADC 7.0.x
+   * FortiADC 5.2.x
+   * FortiADC 5.1.x
+
+3. Description
+
+   An improper privilege management vulnerability [CWE-269] in FortiADC and FortiDDoS-F
+   may allow a remote authenticated attacker with a restricted user profile to modify
+   system files using shell access.
+
+4. Details
+
+   * The vulnerability affects privilege management controls in FortiADC and FortiDDoS-F.
+   * A restricted authenticated user can obtain shell access to the underlying system.
+   * Authorization restrictions applied to low-privileged accounts are not properly enforced.
+   * Through shell access, an authenticated user may modify system files beyond the permissions
+     intended for the assigned role.
+   * Successful exploitation may compromise the integrity of the appliance and allow unauthorized
+     changes to system-level resources.
+
+5. Solution
+
+   Upgrade to one of the following fixed versions:
+
+   FortiADC:
+
+   * Version 6.2.2 or above
+   * Version 7.0.0 or above
+
+   FortiDDoS-F:
+
+   * Version 6.3.1 or above
+   * Version 6.2.3 or above
+   * Version 6.1.5 or above
+
+6. Credits
+
+   Danilo Costa [dcosta@convisoappsec.com](mailto:dcosta@convisoappsec.com)
+
+7. Report Timeline
+
+   Sep 06, 2022 - Vulnerability fixed and publicly disclosed by Fortinet.
+
+8. References
+
+   Fortinet PSIRT Advisory: FG-IR-21-215
+   CVE-2021-43076
+
+9. About Conviso
+
+   Conviso is a consulting company specialized in application security. Our values are based on the
+   allocation of the adequate competencies on the field, a clear and direct speech with the market,
+   collaboration and partnership with our customers and business partners and constant investments
+   on methodology and research improvement. For more information about our company and services
+   provided, please check our website at [www.conviso.com.br](http://www.conviso.com.br).
+
+10. Copyright and Disclaimer
+
+    The information in this advisory is Copyright 2022 Conviso Application Security S/A and provided
+    so that society can understand the risk they may be facing by running affected software,
+    hardware or other components used on their systems. In case you wish to copy information from
+    this advisory, you must either copy all of it or refer to this document (including our URL). No
+    guarantee is provided for the accuracy of this information, or damage you may cause your systems
+    in testing.
