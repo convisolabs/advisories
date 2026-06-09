@@ -1,0 +1,102 @@
+[CONVISO-25-002] - TastyIgniter - Unauthorized Order Status Modification Due to Missing Permission Checks
+
+1. Advisory Information
+
+   Conviso Advisory ID: CONVISO-25-002
+   CVE ID: CVE-2024-44314
+   CVSSv3 Score: 6.5
+   Severity: Medium
+   Date: 2025-03-18
+
+2. Affected Components
+
+   TastyIgniter
+
+   Affected Version:
+
+   * 3.7.6 and prior versions
+
+   Affected Component:
+
+   * app/admin/controllers/Orders.php
+   * index_onUpdateStatus() function
+
+3. Description
+
+   An Incorrect Access Control vulnerability [CWE-284] in TastyIgniter 3.7.6
+   allows unauthorized users to update order statuses due to missing permission
+   checks within the Orders Management System.
+
+4. Details
+
+   * The vulnerability exists in the Orders Management System.
+   * The affected functionality is implemented in the
+     index_onUpdateStatus() function located in Orders.php.
+   * The application fails to properly verify whether the current user
+     possesses permission to modify order statuses.
+   * Authorization checks are missing before processing the update request.
+   * An attacker with insufficient privileges may remotely manipulate
+     order statuses.
+   * Successful exploitation may result in unauthorized modification
+     of business transactions and workflow integrity violations.
+
+   Vulnerability Type:
+
+   * CWE-284: Improper Access Control
+
+   Affected Function:
+
+   * index_onUpdateStatus()
+
+   Affected File:
+
+   * app/admin/controllers/Orders.php
+
+5. Solution
+
+   Upgrade TastyIgniter to a version newer than 3.7.6 once an official fix
+   becomes available.
+
+   Additionally:
+
+   * Enforce permission validation before processing status updates.
+   * Apply role-based access control (RBAC) checks to order management actions.
+   * Restrict status modification operations to authorized roles only.
+   * Review administrative controllers for similar authorization flaws.
+
+6. Credits
+
+   cnetsec
+
+7. Report Timeline
+
+   2024-XX-XX - Vulnerability discovered and reported.
+   2025-03-18 - CVE-2024-44314 published.
+
+8. References
+
+   CVE-2024-44314
+
+   Vulnerable Source Code:
+   https://github.com/tastyigniter/TastyIgniter/blob/3.x/app/admin/controllers/Orders.php
+
+   Research Article:
+   https://medium.com/@cnetsec/cve-2024-44314-incorrect-access-control-in-function-updateorder-fc5f2b1b0467
+
+   Project Repository:
+   https://github.com/tastyigniter/TastyIgniter
+
+9. About Conviso
+
+   Conviso is a consulting company specialized in application security. Our values are based on the
+   allocation of the adequate competencies on the field, a clear and direct speech with the market,
+   collaboration and partnership with our customers and business partners and constant investments
+   on methodology and research improvement. For more information about our company and services
+   provided, please check our website at [www.conviso.com.br](http://www.conviso.com.br).
+
+10. Copyright and Disclaimer
+
+    The information in this advisory is provided so that the security community can understand
+    the risks associated with affected software and take appropriate mitigation actions.
+    No guarantee is provided for the accuracy of this information, or damage caused by
+    testing activities performed based on this document.
